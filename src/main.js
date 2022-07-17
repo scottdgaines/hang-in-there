@@ -12,6 +12,7 @@ var nevermindButton = document.querySelector(".show-main");
 var returnToMainButton = document.querySelector(".back-to-main");
 var newPosterButton = document.querySelector(".make-poster");
 var saveThisPosterButton = document.querySelector(".save-poster");
+var deletePosterButton = document.querySelector(".saved-posters");
 
 var images = [
   "./assets/bees.jpg",
@@ -120,6 +121,7 @@ nevermindButton.addEventListener("click", returnToMain);
 returnToMainButton.addEventListener("click", returnToMain);
 newPosterButton.addEventListener("click", createCustomPoster);
 saveThisPosterButton.addEventListener("click", savePoster);
+deletePosterButton.addEventListener("dblclick", deletePoster);
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -154,15 +156,15 @@ function showMakePoster() {
 function showSavedPoster() {
   mainPoster.classList.add("hidden");
   savedPoster.classList.remove("hidden");
-   savedPostersGrid.innerHTML = "";
+  savedPostersGrid.innerHTML = "";
   for (var i = 0; i < savedPosters.length; i++) {
     savedPostersGrid.innerHTML +=
-    `<div class="mini-poster">
-      <img src=${savedPosters[i].imageURL}>
-      <h2>${savedPosters[i].title}</h2>
-      <h4>${savedPosters[i].quote}</h4>
+      `<div class="mini-poster" "id="${savedPosters[i].id}">
+      <img src="${savedPosters[i].imageURL}" id="${savedPosters[i].id}">
+      <h2 id="${savedPosters[i].id}">${savedPosters[i].title}</h2>
+      <h4 id="${savedPosters[i].id}">${savedPosters[i].quote}</h4>
     </div>`;
-    }
+  }
 }
 
 function returnToMain() {
@@ -177,9 +179,9 @@ function createCustomPoster() {
   var customTitle = document.getElementById('poster-title');
   var customQuote = document.getElementById('poster-quote');
   var newSavedPoster = new Poster(customImg.value, customTitle.value, customQuote.value);
-    images.push(newSavedPoster.imageURL);
-    titles.push(newSavedPoster.title);
-    quotes.push(newSavedPoster.quote);
+  images.push(newSavedPoster.imageURL);
+  titles.push(newSavedPoster.title);
+  quotes.push(newSavedPoster.quote);
   returnToMain();
   newPic.src = newSavedPoster.imageURL;
   newTitles.innerHTML = newSavedPoster.title;
@@ -190,12 +192,12 @@ function createCustomPoster() {
 function checkForDuplicates(currentPoster) {
   for (var i = 0; i < savedPosters.length; i++) {
     if (savedPosters[i].imageURL === currentPoster.imageURL &&
-        savedPosters[i].quote === currentPoster.quote &&
-        savedPosters[i].title === currentPoster.title) {
-          return true;
+      savedPosters[i].quote === currentPoster.quote &&
+      savedPosters[i].title === currentPoster.title) {
+      return true;
     }
   }
-    return false;
+  return false;
 }
 
 function savePoster() {
@@ -204,7 +206,19 @@ function savePoster() {
     savedPosters.push(currentPoster);
   } else {
     if (!checkForDuplicates(currentPoster)) {
-        savedPosters.push(currentPoster);
-      }
+      savedPosters.push(currentPoster);
+    }
   }
+}
+
+function deletePoster() {
+  var posterId = event.target.id;
+  for (var i = 0; i < savedPosters.length; i++) {
+    if (posterId != savedPosters[i].id) {
+      continue;
+    } else {
+      savedPosters.splice(i, 1);
+    }
+  }
+  showSavedPoster();
 }
