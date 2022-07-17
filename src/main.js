@@ -12,6 +12,7 @@ var nevermindButton = document.querySelector(".show-main");
 var returnToMainButton = document.querySelector(".back-to-main");
 var newPosterButton = document.querySelector(".make-poster");
 var saveThisPosterButton = document.querySelector(".save-poster");
+var deletePosterButton = document.querySelector(".saved-posters");
 
 var images = [
   "./assets/bees.jpg",
@@ -120,6 +121,7 @@ nevermindButton.addEventListener("click", returnToMain);
 returnToMainButton.addEventListener("click", returnToMain);
 newPosterButton.addEventListener("click", createCustomPoster);
 saveThisPosterButton.addEventListener("click", savePoster);
+deletePosterButton.addEventListener("click", deletePoster);
 
 function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
@@ -208,3 +210,13 @@ function savePoster() {
       }
   }
 }
+
+function deletePoster(event) {
+   event.target.remove(savedPosters);
+
+ }
+   
+  
+
+  
+
