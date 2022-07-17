@@ -213,7 +213,6 @@ function savePoster() {
 
 function deletePoster() {
   var posterId = event.target.id;
-
   for (var i = 0; i < savedPosters.length; i++) {
     if (posterId != savedPosters[i].id) {
       continue;
